@@ -7,54 +7,50 @@
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
-    <main class="page">
-      <h1>User Search</h1>
-      <div class="search-bar">
-        <label for="user-id-input">User ID:</label>
-        <input id="user-id-input" type="number" min="1" placeholder="User Id" />
-        <button id="search-button" type="button">Search</button>
-      </div>
-      <p id="message" class="message"></p>
+    <!-- HTML code goes here -->
+    <div id="search-bar">
+      <label for="user-id-input">User ID:</label>
+      <input id="user-id-input" type="number" placeholder="User Id" />
+      <button id="search-button">Search</button>
+    </div>
 
-      <section class="result-section">
-        <table>
-          <thead>
-            <tr>
-              <th>Name</th>
-              <th>Email</th>
-              <th>Address</th>
-              <th>Phone</th>
-              <th>Website</th>
-            </tr>
-          </thead>
-          <tbody id="user-table-body"></tbody>
-        </table>
-      </section>
+    <p id="message"></p>
 
-      <section class="result-section">
-        <table>
-          <thead>
-            <tr>
-              <th>Title</th>
-              <th>Body</th>
-            </tr>
-          </thead>
-          <tbody id="posts-table-body"></tbody>
-        </table>
-      </section>
+    <!-- User -->
+    <section class="result-section">
+      <table>
+        <thead>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Address</th>
+          <th>Phone</th>
+          <th>Website</th>
+        </thead>
+        <tbody id="user-table-body"></tbody>
+      </table>
+    </section>
 
-      <section class="result-section">
-        <table>
-          <thead>
-            <tr>
-              <th>Title</th>
-              <th>Completed</th>
-            </tr>
-          </thead>
-          <tbody id="todos-table-body"></tbody>
-        </table>
-      </section>
-    </main>
+    <!-- Posts -->
+    <section class="result-section">
+      <table>
+        <thead>
+          <th>Title</th>
+          <th>Body</th>
+        </thead>
+        <tbody id="posts-table-body"></tbody>
+      </table>
+    </section>
+
+    <!-- Todos -->
+    <section class="result-section">
+      <table>
+        <thead>
+          <th>Title</th>
+          <th>Completed</th>
+        </thead>
+        <tbody id="todos-table-body"></tbody>
+      </table>
+    </section>
   </body>
   <script src="script.js"></script>
 </html>
