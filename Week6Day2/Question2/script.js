@@ -1,3 +1,9 @@
+// Implement a table with data fetched from API:
+
+// Fetch users from https://jsonplaceholder.typicode.com/users
+// Display name, email, address, phone and website for each user in a table
+// The address should contain only street, suite, city and zipcode separated by commas
+
 // Write your JS code here
 fetch("https://jsonplaceholder.typicode.com/users")
   .then((response) => {
