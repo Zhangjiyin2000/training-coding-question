@@ -1,76 +1,109 @@
-// Implement a table with data fetched from API:
+const input = document.querySelector("#user-id-input");
+const searchButton = document.querySelector("#search-button");
+const message = document.querySelector("#message");
+const userTableBody = document.querySelector("#user-table-body");
+const postsTableBody = document.querySelector("#posts-table-body");
+const todosTableBody = document.querySelector("#todos-table-body");
 
-// Fetch users from https://jsonplaceholder.typicode.com/users
-// Display name, email, address, phone and website for each user in a table
-// The address should contain only street, suite, city and zipcode separated by commas
+function createCell(value) {
+  const td = document.createElement("td");
+  td.textContent = value;
+  return td;
+}
 
-// Write your JS code here
-fetch("https://jsonplaceholder.typicode.com/users")
-  .then((response) => {
+function clearTables() {
+  userTableBody.innerHTML = "";
+  postsTableBody.innerHTML = "";
+  todosTableBody.innerHTML = "";
+}
+
+function formatAddress(address) {
+  return `${address.street}, ${address.suite}, ${address.city}, ${address.zipcode}`;
+}
+
+function renderUser(user) {
+  const tr = document.createElement("tr");
+
+  const values = [
+    user.name,
+    user.email,
+    formatAddress(user.address),
+    user.phone,
+    user.website,
+  ];
+
+  values.forEach((value) => {
+    tr.appendChild(createCell(value));
+  });
+
+  userTableBody.appendChild(tr);
+}
+
+function renderPosts(posts) {
+  posts.slice(0, 3).forEach((post) => {
+    const tr = document.createElement("tr");
+    tr.appendChild(createCell(post.title));
+    tr.appendChild(createCell(post.body));
+    postsTableBody.appendChild(tr);
+  });
+}
+
+function renderTodos(todos) {
+  todos.slice(0, 3).forEach((todo) => {
+    const tr = document.createElement("tr");
+    tr.appendChild(createCell(todo.title));
+    tr.appendChild(createCell(todo.completed ? "true" : "false"));
+    todosTableBody.appendChild(tr);
+  });
+}
+
+function fetchJson(url) {
+  return fetch(url).then((response) => {
     if (!response.ok) {
       throw new Error(`Request failed with status ${response.status}`);
     }
 
     return response.json();
-  })
-  .then((items) => {
-    console.log(items);
-    // items.forEach((item) => {
-    //   const name = item.name;
-    //   const email = item.email;
-    //   const address = item.address;
-    //   const phone = item.phone;
-    //   const website = item.website;
-    //   const displayedAddress = `${address.street}, ${address.suite}, ${address.city}, ${address.zipcode}`;
-
-    //   const tr = document.createElement("tr");
-    //   const tdName = document.createElement("td");
-    //   tdName.textContent = name;
-
-    //   const tdEmail = document.createElement("td");
-    //   tdEmail.textContent = email;
-
-    //   const tdAddress = document.createElement("td");
-    //   tdAddress.textContent = displayedAddress;
-
-    //   const tdPhone = document.createElement("td");
-    //   tdPhone.textContent = phone;
-
-    //   const tdWebsite = document.createElement("td");
-    //   tdWebsite.textContent = website;
-
-    //   tr.appendChild(tdName);
-    //   tr.appendChild(tdEmail);
-    //   tr.appendChild(tdAddress);
-    //   tr.appendChild(tdPhone);
-    //   tr.appendChild(tdWebsite);
-
-    //   const tbody = document.querySelector("tbody");
-    //   tbody.appendChild(tr);
-    // });
-    items.forEach((item) => {
-      const displayedAddress = `${item.address.street}, ${item.address.suite}, ${item.address.city}, ${item.address.zipcode}`;
-
-      const tr = document.createElement("tr");
-
-      const values = [
-        item.name,
-        item.email,
-        displayedAddress,
-        item.phone,
-        item.website,
-      ];
-
-      values.forEach((value) => {
-        const td = document.createElement("td");
-        td.textContent = value;
-        tr.appendChild(td);
-      });
-
-      const tbody = document.querySelector("tbody");
-      tbody.appendChild(tr);
-    });
-  })
-  .catch((error) => {
-    console.log("Error: ", error);
   });
+}
+
+function searchUser() {
+  const userId = input.value.trim();
+
+  if (!userId) {
+    message.textContent = "Please enter a user ID.";
+    clearTables();
+    return;
+  }
+
+  clearTables();
+  message.textContent = "Loading...";
+
+  Promise.all([
+    fetchJson(`https://jsonplaceholder.typicode.com/users/${userId}`),
+    fetchJson(`https://jsonplaceholder.typicode.com/posts?userId=${userId}`),
+    fetchJson(`https://jsonplaceholder.typicode.com/todos?userId=${userId}`),
+  ])
+    .then(([user, posts, todos]) => {
+      if (!user || !user.id) {
+        throw new Error("User not found.");
+      }
+
+      renderUser(user);
+      renderPosts(posts);
+      renderTodos(todos);
+      message.textContent = "";
+    })
+    .catch((error) => {
+      clearTables();
+      message.textContent = error.message;
+    });
+}
+
+searchButton.addEventListener("click", searchUser);
+
+input.addEventListener("keydown", (event) => {
+  if (event.key === "Enter") {
+    searchUser();
+  }
+});

@@ -7,17 +7,54 @@
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
-    <!-- Write your HTML code here -->
-    <table>
-      <thead>
-        <th>Name</th>
-        <th>Email</th>
-        <th>Address</th>
-        <th>Phone</th>
-        <th>Website</th>
-      </thead>
-      <tbody></tbody>
-    </table>
+    <main class="page">
+      <h1>User Search</h1>
+      <div class="search-bar">
+        <label for="user-id-input">User ID:</label>
+        <input id="user-id-input" type="number" min="1" placeholder="User Id" />
+        <button id="search-button" type="button">Search</button>
+      </div>
+      <p id="message" class="message"></p>
+
+      <section class="result-section">
+        <table>
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Email</th>
+              <th>Address</th>
+              <th>Phone</th>
+              <th>Website</th>
+            </tr>
+          </thead>
+          <tbody id="user-table-body"></tbody>
+        </table>
+      </section>
+
+      <section class="result-section">
+        <table>
+          <thead>
+            <tr>
+              <th>Title</th>
+              <th>Body</th>
+            </tr>
+          </thead>
+          <tbody id="posts-table-body"></tbody>
+        </table>
+      </section>
+
+      <section class="result-section">
+        <table>
+          <thead>
+            <tr>
+              <th>Title</th>
+              <th>Completed</th>
+            </tr>
+          </thead>
+          <tbody id="todos-table-body"></tbody>
+        </table>
+      </section>
+    </main>
   </body>
   <script src="script.js"></script>
 </html>
