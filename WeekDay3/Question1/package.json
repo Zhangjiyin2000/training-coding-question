@@ -1,0 +1,13 @@
+{
+    "name": "node-starter",
+    "private": true,
+    "type": "module",
+    "scripts": {
+      "start": "concurrently \"tsc --watch\" \"node --watch dist/index.js\""
+    },
+    "devDependencies": {
+      "bun": "^1.2.15",
+      "concurrently": "^9.1.2",
+      "typescript": "^5.8.3"
+    }
+  }
